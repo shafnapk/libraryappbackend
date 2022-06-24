@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.static('./dist/frontend'));
     
 
-const PORT=3000;
+const PORT=5000;
 //adding middleware
 app.use(cors());
 //bodyparser
@@ -90,6 +90,6 @@ app.post('/api/insert',function(req,res){
     
 
 
-app.listen(process.env.PORT || PORT,()=>{
-    console.log('server has been started at:'+PORT);
+app.listen(process.env.PORT || 5000,()=>{
+    console.log('server has been started at:'+5000);
 });
