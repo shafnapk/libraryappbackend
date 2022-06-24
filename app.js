@@ -90,6 +90,6 @@ app.post('/api/insert',function(req,res){
     
 
 
-app.listen(PORT,()=>{
+app.listen(process.env.PORT || PORT,()=>{
     console.log('server has been started at:'+PORT);
 });
