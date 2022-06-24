@@ -3,6 +3,7 @@ const express=require('express');
 const mongoose=require('mongoose');
 const bodyparser=require('body-parser');
 const cors=require('cors');
+const path = require('path');
 
 //instantiate express new veno??
 //var app=express();
@@ -25,6 +26,9 @@ app.use(express.json());
 //     console.log(err);
 // });
 
+app.use(express.static('./dist/frontend'));
+    
+
 const PORT=3000;
 //adding middleware
 app.use(cors());
@@ -32,7 +36,12 @@ app.use(cors());
 app.use(bodyparser.json());
 // app.use('/api',route);
 
-app.get('/books',(req,res)=>{
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
+});
+   
+
+app.get('/api/books',(req,res)=>{
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
     booksmodel.find()
@@ -47,7 +56,7 @@ app.get('/books',(req,res)=>{
 //insert
 
 
-app.post('/insert',function(req,res){
+app.post('/api/insert',function(req,res){
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
     console.log(req.body);
