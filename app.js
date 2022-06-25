@@ -39,9 +39,9 @@ app.use(cors());
 app.use(bodyparser.json());
 //app.use('/api',route);
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
-});
+//app.get('/*', function(req, res) {
+//    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
+//});
    
 
 app.get('/api/books',(req,res)=>{
