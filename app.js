@@ -10,6 +10,9 @@ const path = require('path');
 
 //const  route=require('./route/routes');
 const booksmodel = require('./model/booksmodel');
+
+const usersmodel = require('./model/usersmodel');
+
 const app=new express;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -26,7 +29,7 @@ app.use(express.json());
 //     console.log(err);
 // });
 
-app.use(express.static('./dist/frontend'));
+//app.use(express.static('./dist/frontend'));
     
 
 const PORT=5000;
@@ -34,11 +37,11 @@ const PORT=5000;
 app.use(cors());
 //bodyparser
 app.use(bodyparser.json());
-// app.use('/api',route);
+//app.use('/api',route);
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
-});
+//app.get('/*', function(req, res) {
+//    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
+//});
    
 
 app.get('/api/books',(req,res)=>{
@@ -71,22 +74,30 @@ app.post('/api/insert',function(req,res){
     var book=new booksmodel(books);
     book.save();
 })
-// app.post('/signup',function(req,res){
-//     res.header("Access-Control-Allow-Origin","*");
-    // res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
-    // console.log(req.body);
-    // var regs={
-        
-    //     regid=req.body.item.regid,
-    //     regname=req.body.item.regname,
-    //     regemail=req.body.item.regemail,
-    //     regpassword=req.body.item.regpassword,
-    //     regnum=req.body.item.regnum
+app.post('/api/signup',function(req,res){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+    console.log(req.body);
+    var reg={        
+            id:req.body.item.id,
+            name:req.body.item.name,
+            email:req.body.item.email,
+            password:req.body.item.password,
+            contact_no:req.body.item.contact_no
+        }
+        var user=new usersmodel(reg);
+        user.save();
+    })
 
-    //     }
-    //     var reg=new regmodelschema(regs);
-    //      reg.save();
-    // })
+app.get('/api/users', function(req, res){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+    usersmodel.find()
+       .then(function(book){
+           console.log(book);
+           res.send(book);
+       })
+})
     
 
 
