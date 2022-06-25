@@ -39,9 +39,7 @@ app.use(cors());
 app.use(bodyparser.json());
 //app.use('/api',route);
 
-//app.get('/*', function(req, res) {
-//    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
-//});
+
    
 
 app.get('/api/books',(req,res)=>{
@@ -99,7 +97,9 @@ app.get('/api/users', function(req, res){
        })
 })
     
-
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
+});
 
 app.listen(process.env.PORT || 5000,()=>{
     console.log('server has been started at:'+5000);
