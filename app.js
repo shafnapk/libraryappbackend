@@ -87,6 +87,28 @@ app.post('/api/signup',function(req,res){
         user.save();
     })
 
+//user login
+app.get('/api/user/login/:email/:password',function(req,res)
+{
+    console.log(req)
+   res.header("Access-Control-Allow-Origin","*");
+   res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+   let email=req.params.email;
+   let password=req.params.password;
+
+   console.log(email);
+   console.log(password);
+
+   usersmodel.findOne({"email":email, "password":password})
+   .then((user)=>{
+       res.send(user);
+   
+   });
+
+})
+
+
+
 app.get('/api/users', function(req, res){
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
@@ -96,7 +118,65 @@ app.get('/api/users', function(req, res){
            res.send(book);
        })
 })
+
+//update
+ app.get('/api/:id',function(req,res)
+ {
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+    const id=req.params.id;
+    console.log(id);
+    booksmodel.findOne({"_id":id})
+    .then((book)=>{
+        res.send(book);
     
+    });
+
+ })
+
+
+
+
+ app.put('/api/update',function(req,res){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+    
+    console.log(req.body);
+    var id=req.body.book._id;
+    var bookid=req.body.book.bookid;
+    var booktitle=req.body.book.booktitle;
+    var bookauthor=req.body.book.bookauthor;
+    var bookpublisher=req.body.book.bookpublisher;
+    var bookgenre=req.body.book.bookgenre;
+
+    console.log("id     =  "+id)
+
+    booksmodel.findByIdAndUpdate(id,{$set:{"bookid":bookid,
+                                            "booktitle":booktitle,
+                                            "bookauthor":bookauthor,
+                                              "bookpublisher":bookpublisher,
+                                              "bookgenre":bookgenre}})
+                                              .then(function(){
+                                                  res.send();
+                                              })
+ })
+
+
+
+    //delete
+    // app.delete('/api/remove/:id',function(req,res){
+    //     res.header("Access-Control-Allow-Origin","*");
+    //     res.header("Access-Control-Allow-Methods:GET,POST,PUT,DELETE");
+
+    //     console.log(req.params.id);
+    //     booksmodel.findByIdAndDelete(req.params.id)
+    //     .then(()=>{
+    //         console.log("success");
+    //         res.send();
+    //     })
+
+  
+    // })                       
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname + '/dist/frontend/index.html'));
 });
